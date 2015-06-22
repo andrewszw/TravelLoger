@@ -14,6 +14,8 @@ import android.widget.EditText;
  */
 public class LogFragment extends Fragment {
 
+    private Logger mLogger;
+
     private EditText mStartLocationField;
     private EditText mEndLocationField;
     private Button mStartDateButton, mEndDateButton, mMapButton;
@@ -21,6 +23,7 @@ public class LogFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mLogger = new Logger();
     }
 
     @Override
@@ -33,8 +36,12 @@ public class LogFragment extends Fragment {
         mEndLocationField = (EditText)v.findViewById(R.id.end_location);
 
         mStartDateButton = (Button)v.findViewById(R.id.date_startButton);
+        mStartDateButton.setText(mLogger.getStartDateFormat());
+        mStartDateButton.setEnabled(false);
 
         mEndDateButton = (Button)v.findViewById(R.id.date_endButton);
+        mEndDateButton.setText(mLogger.getEndDateFormat());
+        mEndDateButton.setEnabled(false);
 
         mMapButton = (Button)v.findViewById(R.id.map);
         mMapButton.setOnClickListener(new View.OnClickListener() {
