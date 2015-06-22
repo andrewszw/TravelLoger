@@ -7,4 +7,7 @@
     <string name="start_location_hint">Enter Start Location Address</string>
     <string name="end_location_label">End Location</string>
     <string name="end_location_hint">Enter End Location Address</string>
+    <string name="date_label">Dates</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
 </resources>
