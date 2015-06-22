@@ -6,10 +6,15 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.UUID;
+
 public class LogActivity extends SingleFragmentActivity {
 
     @Override
     public Fragment createFragment() {
-        return new LogFragment();
+        UUID logId = (UUID)getIntent()
+                .getSerializableExtra(LogFragment.EXTRA_LOG_ID);
+
+        return LogFragment.newInstance(logId);
     }
 }

@@ -14,6 +14,7 @@ public class Logger {
     private UUID mId;
     private Date mStartDate;
     private Date mEndDate;
+    private String mTitle;
     private int mLatitude;
     private int mLongitude;
 
@@ -51,6 +52,19 @@ public class Logger {
     public String getEndDateFormat() {
         DateFormat df = DateFormat.getDateInstance();
         return df.format(mEndDate).toString();
+    }
+
+    @Override
+    public String toString() {
+        return mTitle;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public void setTitle(String title) {
+        mTitle = title;
     }
 
 }
