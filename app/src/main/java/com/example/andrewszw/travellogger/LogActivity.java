@@ -10,7 +10,6 @@ public class LogActivity extends SingleFragmentActivity {
 
     @Override
     public Fragment createFragment() {
-        // return new LogFragment();
-        return new Fragment();
+        return new LogFragment();
     }
 }
