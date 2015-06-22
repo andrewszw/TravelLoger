@@ -1,5 +1,6 @@
 package com.example.andrewszw.travellogger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,7 +16,7 @@ public class LogFragment extends Fragment {
 
     private EditText mStartLocationField;
     private EditText mEndLocationField;
-    private Button mStartDateButton, mEndDateButton;
+    private Button mStartDateButton, mEndDateButton, mMapButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,15 @@ public class LogFragment extends Fragment {
         mStartDateButton = (Button)v.findViewById(R.id.date_startButton);
 
         mEndDateButton = (Button)v.findViewById(R.id.date_endButton);
+
+        mMapButton = (Button)v.findViewById(R.id.map);
+        mMapButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), LogMapActivity.class);
+                startActivity(i);
+            }
+        });
 
         return v;
     }
