@@ -23,7 +23,7 @@ public class LogFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_run, parent, false);
+        View v = inflater.inflate(R.layout.fragment_log, parent, false);
 
         mStartLocationField = (EditText)v.findViewById(R.id.start_location);
 
