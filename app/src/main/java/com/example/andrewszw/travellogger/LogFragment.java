@@ -175,6 +175,7 @@ public class LogFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), LogMapActivity.class);
+                i.putExtra(LogMapFragment.EXTRA_LOG_ID, mLogger.getUUID());
                 startActivity(i);
             }
         });

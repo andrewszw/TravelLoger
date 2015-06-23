@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,33 @@ import java.util.UUID;
  */
 public class LogMapFragment extends SupportMapFragment {
 
+    public static final String EXTRA_LOG_ID =
+            "com.example.andrewszw.travelloger.id";
+
+
+    private static final String TAG = "LogMapFragment";
+
     private GoogleMap mGoogleMap;
     private Logger mLogger;
+
+    public static LogMapFragment newInstance(UUID logId) {
+        Bundle args = new Bundle();
+        args.putSerializable(EXTRA_LOG_ID, logId);
+
+        LogMapFragment frag = new LogMapFragment();
+        frag.setArguments(args);
+
+        return frag;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UUID logId = (UUID)getActivity().getIntent()
+                .getSerializableExtra(EXTRA_LOG_ID);
+
+        mLogger = LoggerLab.get(getActivity()).getLogger(logId);
+
     }
 
     @Override
@@ -44,8 +66,6 @@ public class LogMapFragment extends SupportMapFragment {
         View v = super.onCreateView(inflater, parent, savedInstanceState);
 
         mGoogleMap = getMap();
-
-        mLogger = new Logger();
 
         updateUI();
 
@@ -63,7 +83,7 @@ public class LogMapFragment extends SupportMapFragment {
     public double[] grabEndCoordinates() {
         double [] points = new double[2];
         points[0] = mLogger.getEndLatitude();
-        points[1] = mLogger.getStartLatitude();
+        points[1] = mLogger.getEndLongitude();
         return points;
     }
 
@@ -76,6 +96,7 @@ public class LogMapFragment extends SupportMapFragment {
         double [] endPoint = grabEndCoordinates();
 
         LatLng start = new LatLng(startPoint[0], startPoint[1]);
+        Log.d(TAG, "Start coordinates" + start);
         LatLng end = new LatLng(endPoint[0], endPoint[1]);
 
         Resources r = getResources();
