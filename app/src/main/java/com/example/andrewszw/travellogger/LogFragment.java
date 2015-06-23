@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,7 @@ public class LogFragment extends Fragment {
     private static final int END_REQUEST_DATE = 1;
 
     private Logger mLogger;
+    private LocationAddress mLocationAddress;
 
     private EditText mStartLocationField;
     private EditText mEndLocationField;
@@ -66,6 +68,7 @@ public class LogFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID logId = (UUID)getArguments().getSerializable(EXTRA_LOG_ID);
         mLogger = LoggerLab.get(getActivity()).getLogger(logId);
+        mLocationAddress = new LocationAddress();
 
         setHasOptionsMenu(true);
     }
@@ -100,6 +103,7 @@ public class LogFragment extends Fragment {
         });
 
         mStartLocationField = (EditText)v.findViewById(R.id.start_location);
+        mStartLocationField.setText(mLogger.getStartLocation());
         mStartLocationField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -114,10 +118,12 @@ public class LogFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 mLogger.setStartLocation(s.toString());
+                new convertToLatLongStart().execute();
             }
         });
 
         mEndLocationField = (EditText)v.findViewById(R.id.end_location);
+        mEndLocationField.setText(mLogger.getEndLocation());
         mEndLocationField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -132,7 +138,7 @@ public class LogFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 mLogger.setEndLocation(s.toString());
-                Log.d(TAG, "End Location is: " + mLogger.getEndLocation());
+                new convertToLatLongEnd().execute();
             }
         });
 
@@ -193,6 +199,36 @@ public class LogFragment extends Fragment {
         }
     }
 
+    private class convertToLatLongStart extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            String address = mLogger.getStartLocation();
+            GeocodingLocation geoLoc = new GeocodingLocation();
+            double[] points = geoLoc.getLatLongFromAddress(getActivity(), address);
+            mLogger.setStartLatitude(points[0]);
+            mLogger.setStartLongitude(points[1]);
+            Log.d(TAG, "Start Latitude is: " + mLogger.getStartLatitude());
+            Log.d(TAG, "Start Longitude is: " + mLogger.getStartLongitude());
+            return null;
+        }
+    }
+
+    private class convertToLatLongEnd extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... params) {
+
+            String address = mLogger.getEndLocation();
+            GeocodingLocation geoLoc = new GeocodingLocation();
+            double[] points = geoLoc.getLatLongFromAddress(getActivity(), address);
+            mLogger.setEndLatitude(points[0]);
+            mLogger.setEndLongitude(points[1]);
+            Log.d(TAG, "End Latitude is: " + mLogger.getEndLatitude());
+            Log.d(TAG, "End Longitude is: " + mLogger.getEndLongitude());
+            return null;
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
@@ -202,5 +238,11 @@ public class LogFragment extends Fragment {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LoggerLab.get(getActivity()).saveTrips();
     }
 }

@@ -1,6 +1,10 @@
 package com.example.andrewszw.travellogger;
 
 import android.location.Geocoder;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.FieldPosition;
@@ -12,6 +16,19 @@ import java.util.UUID;
  * Created by andrewszw on 6/22/15.
  */
 public class Logger {
+
+    private static final String TAG = "Logger";
+
+    private static final String JSON_ID = "id";
+    private static final String JSON_START_DATE = "start_date";
+    private static final String JSON_END_DATE = "end_date";
+    private static final String JSON_TITLE = "title";
+    private static final String JSON_START_LOCATION = "start_location";
+    private static final String JSON_END_LOCATION = "end_location";
+    private static final String JSON_START_LATITUDE = "start_latitude";
+    private static final String JSON_START_LONGITUDE = "start_longitude";
+    private static final String JSON_END_LATITUDE = "end_latitude";
+    private static final String JSON_END_LONGITUDE = "end_longitude";
 
     private UUID mId;
     private Date mStartDate;
@@ -34,6 +51,41 @@ public class Logger {
         mStartLongitude = 0.0;
         mEndLatitude = 0.0;
         mEndLongitude = 0.0;
+    }
+
+    public Logger(JSONObject json) throws JSONException {
+        mId = UUID.fromString(json.getString(JSON_ID));
+
+        if(json.has(JSON_TITLE)) {
+            mTitle = json.getString(JSON_TITLE);
+        }
+
+        mStartDate = new Date(json.getLong(JSON_START_DATE));
+        mEndDate = new Date(json.getLong(JSON_END_DATE));
+
+        mStartLocation = json.getString(JSON_START_LOCATION);
+
+        mEndLocation = json.getString(JSON_END_LOCATION);
+
+        mStartLatitude = json.getDouble(JSON_START_LATITUDE);
+        mStartLongitude = json.getDouble(JSON_START_LONGITUDE);
+        mEndLatitude = json.getDouble(JSON_END_LATITUDE);
+        mEndLongitude = json.getDouble(JSON_END_LONGITUDE);
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject json = new JSONObject();
+        json.put(JSON_ID, mId.toString());
+        json.put(JSON_START_DATE, mStartDate.getTime());
+        json.put(JSON_END_DATE, mEndDate.getTime());
+        json.put(JSON_TITLE, mTitle);
+        json.put(JSON_START_LOCATION, mStartLocation);
+        json.put(JSON_END_LOCATION, mEndLocation);
+        json.put(JSON_START_LATITUDE, mStartLatitude);
+        json.put(JSON_START_LONGITUDE, mStartLongitude);
+        json.put(JSON_END_LATITUDE, mEndLatitude);
+        json.put(JSON_END_LONGITUDE, mEndLongitude);
+        return json;
     }
 
     public Double getStartLatitude() {

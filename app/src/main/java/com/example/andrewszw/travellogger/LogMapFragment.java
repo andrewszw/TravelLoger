@@ -45,21 +45,25 @@ public class LogMapFragment extends SupportMapFragment {
 
         mGoogleMap = getMap();
 
+        mLogger = new Logger();
+
         updateUI();
 
         return v;
 
     }
 
-    public Double[] grabStartCoordinates() {
-        Double[] points = getLatLongFromAddress(
-                getActivity(), "289 Ambling Way, Boone, NC");
+    public double[] grabStartCoordinates() {
+        double[] points = new double[2];
+        points[0] = mLogger.getStartLatitude();
+        points[1] = mLogger.getStartLongitude();
         return points;
     }
 
-    public Double[] grabEndCoordinates() {
-        Double[] points = getLatLongFromAddress(
-                getActivity(), "104 Breckenridge Drive, Knightdale, NC");
+    public double[] grabEndCoordinates() {
+        double [] points = new double[2];
+        points[0] = mLogger.getEndLatitude();
+        points[1] = mLogger.getStartLatitude();
         return points;
     }
 
@@ -68,8 +72,8 @@ public class LogMapFragment extends SupportMapFragment {
 
         LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
 
-        Double [] startPoint = grabStartCoordinates();
-        Double [] endPoint = grabEndCoordinates();
+        double [] startPoint = grabStartCoordinates();
+        double [] endPoint = grabEndCoordinates();
 
         LatLng start = new LatLng(startPoint[0], startPoint[1]);
         LatLng end = new LatLng(endPoint[0], endPoint[1]);
@@ -84,13 +88,13 @@ public class LogMapFragment extends SupportMapFragment {
 
         MarkerOptions startMarkerOptions = new MarkerOptions()
                 .position(start)
-                .title("289 Ambling Way, Boone, NC")
+                .title(mLogger.getStartLocation())
                 .snippet("This trip began on some day");
         mGoogleMap.addMarker(startMarkerOptions);
 
         MarkerOptions endMarkerOptions = new MarkerOptions()
                 .position(end)
-                .title("104 BreckenRidge Drive")
+                .title(mLogger.getEndLocation())
                 .snippet("This trip ended on some day");
         mGoogleMap.addMarker(endMarkerOptions);
 
@@ -98,20 +102,4 @@ public class LogMapFragment extends SupportMapFragment {
         mGoogleMap.moveCamera(movement);
     }
 
-    public Double[] getLatLongFromAddress(Context context, String address) {
-        Geocoder geo = new Geocoder(context, Locale.getDefault());
-        Double[] points = new Double[2];
-
-        try {
-            List<Address> list = geo.getFromLocationName(address, 1);
-            Address tmp_address = list.get(0);
-            double latitude = tmp_address.getLatitude();
-            double longitude = tmp_address.getLongitude();
-            points[0] = latitude;
-            points[1] = longitude;
-        } catch(IOException ioe) {
-
-        }
-        return points;
-    }
 }
