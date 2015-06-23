@@ -1,8 +1,10 @@
 package com.example.andrewszw.travellogger;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -23,6 +26,12 @@ public class LogFragment extends Fragment {
 
     public static final String EXTRA_LOG_ID =
             "com.example.andrewszw.travellogger.log_id";
+
+    private static final String START_DIALOG_DATE = "start_date";
+    private static final String END_DIALOG_DATE = "end_date";
+
+    private static final int START_REQUEST_DATE = 0;
+    private static final int END_REQUEST_DATE = 1;
 
     private Logger mLogger;
 
@@ -82,11 +91,31 @@ public class LogFragment extends Fragment {
 
         mStartDateButton = (Button)v.findViewById(R.id.date_startButton);
         mStartDateButton.setText(mLogger.getStartDateFormat());
-        mStartDateButton.setEnabled(false);
+        mStartDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                StartDatePickerFragment dialog = StartDatePickerFragment
+                        .newInstance(mLogger.getStartDate());
+                dialog.setTargetFragment(LogFragment.this, START_REQUEST_DATE);
+                dialog.show(fm, START_DIALOG_DATE);
+            }
+        });
 
         mEndDateButton = (Button)v.findViewById(R.id.date_endButton);
         mEndDateButton.setText(mLogger.getEndDateFormat());
-        mEndDateButton.setEnabled(false);
+        mEndDateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getActivity()
+                        .getSupportFragmentManager();
+                EndDatePickerFragment dialog = EndDatePickerFragment
+                        .newInstance(mLogger.getEndDate());
+                dialog.setTargetFragment(LogFragment.this, END_REQUEST_DATE);
+                dialog.show(fm, END_DIALOG_DATE);
+            }
+        });
 
         mMapButton = (Button)v.findViewById(R.id.map);
         mMapButton.setOnClickListener(new View.OnClickListener() {
@@ -98,5 +127,22 @@ public class LogFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode != Activity.RESULT_OK) return;
+
+        if(requestCode == START_REQUEST_DATE) {
+            Date date = (Date)data
+                    .getSerializableExtra(StartDatePickerFragment.EXTRA_START_DATE);
+            mLogger.setStartDate(date);
+            mStartDateButton.setText(mLogger.getStartDateFormat());
+        } else if(requestCode == END_REQUEST_DATE) {
+            Date date = (Date)data
+                    .getSerializableExtra(EndDatePickerFragment.EXTRA_END_DATE);
+            mLogger.setEndDate(date);
+            mEndDateButton.setText(mLogger.getEndDateFormat());
+        }
     }
 }
