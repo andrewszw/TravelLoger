@@ -15,13 +15,15 @@ public class Logger {
     private Date mStartDate;
     private Date mEndDate;
     private String mTitle;
-    private int mLatitude;
-    private int mLongitude;
+    private String mStartLocation;
+    private String mEndLocation;
 
     public Logger() {
         mId = UUID.randomUUID();
         mStartDate = new Date();
         mEndDate = new Date();
+        mStartLocation = "";
+        mEndLocation = "";
     }
 
     public UUID getUUID() {
@@ -42,6 +44,22 @@ public class Logger {
 
     public void setEndDate(Date date) {
         mEndDate = date;
+    }
+
+    public String getStartLocation() {
+        return mStartLocation;
+    }
+
+    public String getEndLocation() {
+        return mEndLocation;
+    }
+
+    public void setStartLocation(String startLocation) {
+        mStartLocation = startLocation;
+    }
+
+    public void setEndLocation(String endLocation) {
+        mEndLocation = endLocation;
     }
 
     public String getStartDateFormat() {

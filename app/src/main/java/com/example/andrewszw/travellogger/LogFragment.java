@@ -93,12 +93,42 @@ public class LogFragment extends Fragment {
         });
 
         mStartLocationField = (EditText)v.findViewById(R.id.start_location);
-        String startAddress = mStartLocationField.getText().toString();
-        Log.d(TAG, "The start address is: " + startAddress);
+        mStartLocationField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // nothing will be here initially
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mLogger.setStartLocation(s.toString());
+                Log.d(TAG, "Start Location is: " + mLogger.getStartLocation());
+            }
+        });
 
         mEndLocationField = (EditText)v.findViewById(R.id.end_location);
-        String endAddress = mEndLocationField.getText().toString();
-        Log.d(TAG, "The end address is: " + endAddress);
+        mEndLocationField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                mLogger.setEndLocation(s.toString());
+                Log.d(TAG, "End Location is: " + mLogger.getEndLocation());
+            }
+        });
 
         mStartDateButton = (Button)v.findViewById(R.id.date_startButton);
         mStartDateButton.setText(mLogger.getStartDateFormat());
