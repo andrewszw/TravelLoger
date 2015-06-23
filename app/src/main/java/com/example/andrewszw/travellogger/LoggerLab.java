@@ -20,13 +20,6 @@ public class LoggerLab {
     private LoggerLab(Context appContext) {
         mAppContext = appContext;
         mLoggers = new ArrayList<Logger>();
-
-        // test data
-        for(int i = 0; i < 100; i++) {
-            Logger l = new Logger();
-            l.setTitle("Trip #" + i);
-            mLoggers.add(l);
-        }
     }
 
     public static LoggerLab get(Context c) {
@@ -47,5 +40,9 @@ public class LoggerLab {
             }
         }
         return null;
+    }
+
+    public void addLogger(Logger l) {
+        mLoggers.add(l);
     }
 }

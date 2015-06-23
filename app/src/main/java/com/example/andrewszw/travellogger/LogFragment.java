@@ -1,14 +1,18 @@
 package com.example.andrewszw.travellogger;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -55,12 +59,19 @@ public class LogFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID logId = (UUID)getArguments().getSerializable(EXTRA_LOG_ID);
         mLogger = LoggerLab.get(getActivity()).getLogger(logId);
+
+        setHasOptionsMenu(true);
     }
 
+    @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_log, parent, false);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         mTitleField = (EditText)v.findViewById(R.id.title);
         mTitleField.setText(mLogger.getTitle());
@@ -143,6 +154,17 @@ public class LogFragment extends Fragment {
                     .getSerializableExtra(EndDatePickerFragment.EXTRA_END_DATE);
             mLogger.setEndDate(date);
             mEndDateButton.setText(mLogger.getEndDateFormat());
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(getActivity());
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

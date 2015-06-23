@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -24,6 +27,8 @@ public class LoggerListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
         getActivity().setTitle(R.string.trips);
         mLoggers = LoggerLab.get(getActivity()).getLoggers();
 
@@ -69,6 +74,27 @@ public class LoggerListFragment extends ListFragment {
             dateTextView.setText(l.getStartDateFormat());
 
             return convertView;
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_log_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.menu_item_new_trip:
+                Logger logger = new Logger();
+                LoggerLab.get(getActivity()).addLogger(logger);
+                Intent i = new Intent(getActivity(), LogActivity.class);
+                i.putExtra(LogFragment.EXTRA_LOG_ID, logger.getUUID());
+                startActivityForResult(i, 0);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
