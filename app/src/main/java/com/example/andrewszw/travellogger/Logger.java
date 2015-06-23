@@ -1,5 +1,7 @@
 package com.example.andrewszw.travellogger;
 
+import android.location.Geocoder;
+
 import java.text.DateFormat;
 import java.text.FieldPosition;
 import java.text.ParsePosition;
@@ -17,6 +19,10 @@ public class Logger {
     private String mTitle;
     private String mStartLocation;
     private String mEndLocation;
+    private Double mStartLatitude;
+    private Double mStartLongitude;
+    private Double mEndLatitude;
+    private Double mEndLongitude;
 
     public Logger() {
         mId = UUID.randomUUID();
@@ -24,6 +30,42 @@ public class Logger {
         mEndDate = new Date();
         mStartLocation = "";
         mEndLocation = "";
+        mStartLatitude = 0.0;
+        mStartLongitude = 0.0;
+        mEndLatitude = 0.0;
+        mEndLongitude = 0.0;
+    }
+
+    public Double getStartLatitude() {
+        return mStartLatitude;
+    }
+
+    public Double getStartLongitude() {
+        return mStartLongitude;
+    }
+
+    public void setStartLatitude(Double latitude) {
+        mStartLatitude = latitude;
+    }
+
+    public void setStartLongitude(Double longitude) {
+        mStartLongitude = longitude;
+    }
+
+    public Double getEndLatitude() {
+        return mEndLatitude;
+    }
+
+    public Double getEndLongitude() {
+        return mEndLongitude;
+    }
+
+    public void setEndLatitude(Double latitude) {
+        mEndLatitude = latitude;
+    }
+
+    public void setEndLongitude(Double longitude) {
+        mEndLongitude = longitude;
     }
 
     public UUID getUUID() {

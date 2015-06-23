@@ -2,7 +2,10 @@ package com.example.andrewszw.travellogger;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,7 +21,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -107,7 +114,6 @@ public class LogFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 mLogger.setStartLocation(s.toString());
-                Log.d(TAG, "Start Location is: " + mLogger.getStartLocation());
             }
         });
 

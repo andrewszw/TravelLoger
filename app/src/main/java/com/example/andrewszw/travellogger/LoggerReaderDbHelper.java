@@ -50,7 +50,6 @@ public class LoggerReaderDbHelper extends SQLiteOpenHelper {
 
     public long insertTrip(Logger l) {
         ContentValues cv = new ContentValues();
-        // add latitude and longitude once I have those values from GeoCoder
         cv.put(COLUMN_NAME_START_DATE, l.getStartDate().getTime());
         cv.put(COLUMN_NAME_END_DATE, l.getEndDate().getTime());
         return getWritableDatabase().insert(TABLE_NAME, null, cv);
