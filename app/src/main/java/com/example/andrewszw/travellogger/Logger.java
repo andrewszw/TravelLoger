@@ -1,6 +1,7 @@
 package com.example.andrewszw.travellogger;
 
 import android.location.Geocoder;
+import android.provider.CalendarContract;
 import android.util.Log;
 
 import org.json.JSONException;
@@ -177,6 +178,12 @@ public class Logger {
 
     public void setTitle(String title) {
         mTitle = title;
+    }
+
+    public int getTotalDays() {
+        long millis = 1000 * 60 * 60 * 24;
+        int days = (int)((mEndDate.getTime() - mStartDate.getTime()) / millis);
+        return days;
     }
 
 }

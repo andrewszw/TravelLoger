@@ -17,4 +17,13 @@
     <string name="end_date_picker_title">End Date:</string>
     <string name="new_trip">New Trip</string>
     <string name="delete_trip">Delete Trip</string>
+    <string name="start_date_detail">Date Started:</string>
+    <string name="end_date_detail">Date Ended:</string>
+    <string name="total_days_detail">Total Days:</string>
+    <string name="total_distance_detail">Total Distance:</string>
+    <string name="details">Details</string>
+    <string name="view_details">View Details</string>
+
+    <string name="date_information">Date Information</string>
+    <string name="maps_details">Map/Details</string>
 </resources>

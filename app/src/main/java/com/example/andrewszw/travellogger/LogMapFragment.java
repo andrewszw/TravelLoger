@@ -95,8 +95,8 @@ public class LogMapFragment extends SupportMapFragment {
         double [] startPoint = grabStartCoordinates();
         double [] endPoint = grabEndCoordinates();
 
+        // Store start and end coordinates as LatLng Objects
         LatLng start = new LatLng(startPoint[0], startPoint[1]);
-        Log.d(TAG, "Start coordinates" + start);
         LatLng end = new LatLng(endPoint[0], endPoint[1]);
 
         Resources r = getResources();
@@ -105,20 +105,24 @@ public class LogMapFragment extends SupportMapFragment {
         Polyline line = mGoogleMap.addPolyline(new PolylineOptions()
                 .add(start, end)
                 .width(5)
+                .geodesic(true)
                 .color(Color.RED));
 
+        // Set start marker options
         MarkerOptions startMarkerOptions = new MarkerOptions()
                 .position(start)
                 .title(mLogger.getStartLocation())
-                .snippet("This trip began on some day");
+                .snippet("Start Date: " + mLogger.getStartDateFormat());
         mGoogleMap.addMarker(startMarkerOptions);
 
+        // Set end marker options
         MarkerOptions endMarkerOptions = new MarkerOptions()
                 .position(end)
                 .title(mLogger.getEndLocation())
-                .snippet("This trip ended on some day");
+                .snippet("End Date: " + mLogger.getEndDateFormat());
         mGoogleMap.addMarker(endMarkerOptions);
 
+        // Zoom in on start location
         CameraUpdate movement = CameraUpdateFactory.newLatLngZoom(start, 9.0f);
         mGoogleMap.moveCamera(movement);
     }

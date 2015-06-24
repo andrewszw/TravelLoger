@@ -22,11 +22,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -51,7 +47,7 @@ public class LogFragment extends Fragment {
     private EditText mStartLocationField;
     private EditText mEndLocationField;
     private EditText mTitleField;
-    private Button mStartDateButton, mEndDateButton, mMapButton;
+    private Button mStartDateButton, mEndDateButton, mMapButton, mDetailButton;
 
     public static LogFragment newInstance(UUID logId) {
         Bundle args = new Bundle();
@@ -176,6 +172,16 @@ public class LogFragment extends Fragment {
             public void onClick(View v) {
                 Intent i = new Intent(getActivity(), LogMapActivity.class);
                 i.putExtra(LogMapFragment.EXTRA_LOG_ID, mLogger.getUUID());
+                startActivity(i);
+            }
+        });
+
+        mDetailButton = (Button)v.findViewById(R.id.detail);
+        mDetailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), TripDetailActivity.class);
+                i.putExtra(TripDetailFragment.EXTRA_LOG_ID, mLogger.getUUID());
                 startActivity(i);
             }
         });

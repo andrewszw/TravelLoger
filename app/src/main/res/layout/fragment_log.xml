@@ -21,28 +21,6 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/locations"
-        style="?android:listSeparatorTextViewStyle" />
-
-    <EditText
-        android:id="@+id/start_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/start_location_hint" />
-
-    <EditText
-        android:id="@+id/end_location"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:hint="@string/end_location_hint" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/start_date"
         style="?android:listSeparatorTextViewStyle" />
     
@@ -67,6 +45,28 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/locations"
+        style="?android:listSeparatorTextViewStyle" />
+
+    <EditText
+        android:id="@+id/start_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/start_location_hint" />
+
+    <EditText
+        android:id="@+id/end_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:hint="@string/end_location_hint" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="@string/maps"
         style="?android:listSeparatorTextViewStyle" />
 
@@ -76,5 +76,18 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:text="@string/create_map" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/details"
+        style="?android:listSeparatorTextViewStyle" />
+
+    <Button
+        android:id="@+id/detail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="@string/view_details" />
 
 </LinearLayout>
